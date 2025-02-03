@@ -24,24 +24,32 @@ void tempChecker(){
 
 
 void even_or_odd(){
-    int even_count=0, odd_count=0, number_to_count_from;
+    int even_count=0, odd_count=0;
+    int number_to_count_from[10];
 
-    printf("\n\n\nEnter the number you want to count to:\n");
-    scanf("%d", &number_to_count_from);
+    for(int i=0; i<10; i++){
+        printf("\n\n\nEnter the numbers you want to count to:\n");
+        scanf("%d", &number_to_count_from[i]);
+    }
 
-    for(int i=1; i<=number_to_count_from; i++){
-        if(i%2==0){
+
+
+    for(int i=0; i<10; i++){
+        if(number_to_count_from[i]%2==0){
             even_count++;
-        } else if(i%2==1){
+        } else if(number_to_count_from[i]%2==1){
             odd_count++;
         }
     }
-
-    printf("The number of even numbers is:%d\nWhile the number of odd numbers is:%d", even_count, odd_count);
+    printf("The numbers you entered are:\n");
+    for(int i=0; i<10; i++){
+        printf("%d, ", number_to_count_from[i]);
+    }
+    printf("\nThe number of even numbers is:%d\nWhile the number of odd numbers is:%d", even_count, odd_count);
 }
 
 int main(){
-    tempChecker();
+    // tempChecker();
     even_or_odd();
   
 
