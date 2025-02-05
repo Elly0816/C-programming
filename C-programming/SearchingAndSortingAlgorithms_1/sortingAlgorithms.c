@@ -1,110 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Try implementing the searching algorithms on your own
-
-const int SIZE = 500;
-
-const int value = 480;
-
-// Linear search
-
-int linear_search(int items[], int size, int item)
+// Insertion Sort
+int selection_sort(int array[], int size)
 {
+    // start from the 0th index
+    // Check if the next index is contains a smaller value
+    // if it does set the start index to that and start scanning the next indexes
+    // WHen at the end of the list, move the smallest element to the first index, and continue from the next index
+    if (!array || size <= 0)
+        return -1;
+
     for (int i = 0; i < size; i++)
     {
-        if (items[i] == item)
+        int min_idx = i;
+
+        for (int j = min_idx + 1; j < size; j++)
         {
-            printf("Found the item: %d at index %d\n", item, i);
-            return i;
+            if (array[j] < array[min_idx])
+            {
+                min_idx = j;
+            }
+        }
+
+        if (min_idx != i)
+        {
+            int temp = array[i];
+            array[i] = array[min_idx];
+            array[min_idx] = temp;
         }
     }
-    printf("Item %d is not in the array", item);
-    return -1;
-}
-
-// Binary Search
-
-int binary_search(int array[], int size, int item)
-{
-    int left = 0, right = size - 1, mid;
-
-    if (!array || size <= 0)
+    printf("The sorted array is: [ ");
+    for (int i = 0; i < size; i++)
     {
-        return -1;
+        printf("%d, ", array[i]);
     }
+    printf(" ]");
 
-    while (left <= right)
-    {
-        mid = left + (right - left) / 2;
-        if (array[mid] == item)
-        {
-            printf("The item %d was found at index %d using binary search", item, mid);
-            return mid;
-        }
-        else if (array[mid] < item)
-        {
-            left = mid + 1;
-        }
-        else if (array[mid] > item)
-        {
-            right = mid - 1;
-        }
-    }
-    printf("The item %d is not in the array", item);
-    return -1;
-}
-
-// Exponential Search
-
-int exponential_search(int array[], int size, int value)
-{
-    int lower_bound = 0, upper_bound = 1;
-
-    if (array[0] == value)
-    {
-        printf("The value %d was found at index 0", value);
-        return 0;
-    }
-
-    while (array[upper_bound] < value && upper_bound < size)
-    {
-        upper_bound = upper_bound * 2;
-    }
-    lower_bound = upper_bound / 2;
-    upper_bound = upper_bound > size - 1 ? size - 1 : upper_bound;
-
-    return binary_search(array + lower_bound, (upper_bound - lower_bound) + 1, value);
-}
-
-int compare_values(const void *a, const void *b)
-{
-    return (*(int *)a - *(int *)b);
+    return 0;
 }
 
 int main()
 {
+    const int SIZE = 5;
 
     int *array = (int *)malloc(SIZE * sizeof(int));
 
-    for (int i = 0; i < SIZE; i++)
+    if (array == NULL) // Always check if memory allocation was successful
     {
-        array[i] = (i + 1) * 2;
+        printf("Memory allocation failed");
+        return -1;
     }
+    array[0] = 23;
+    array[1] = 15;
+    array[2] = 50;
+    array[3] = 36;
+    array[4] = 21;
 
     // for (int i = 0; i < SIZE; i++)
     // {
-    //     printf("The value in the index %d is: %d\n\n", i, array[i]);
+    //     array[i] = (i + 1) * 3;
     // }
 
-    linear_search(array, SIZE, value);
-    qsort(array, SIZE, sizeof(int), compare_values);
-    printf("\n");
-    binary_search(array, SIZE, value);
+    printf("The original array is: [ ");
 
-    printf("\n");
-    exponential_search(array, SIZE, value);
+    for (int i = 0; i < SIZE; i++)
+    {
+        printf("%d, ", array[i]);
+    }
+    printf(" ]");
 
-    free(array);
+    selection_sort(array, SIZE);
+
+    free(array); // Always remember to free the memory on the heap
     return 0;
 }
