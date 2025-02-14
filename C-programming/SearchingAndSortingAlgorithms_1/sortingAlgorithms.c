@@ -118,7 +118,7 @@ int merge_sort(int array[], int start, int end)
 
 int main()
 {
-    const int SIZE = 10;
+    const int SIZE = 9;
 
     int *array = (int *)malloc(SIZE * sizeof(int));
 
@@ -136,7 +136,7 @@ int main()
     array[6] = 63;
     array[7] = 38;
     array[8] = 6;
-    array[9] = 41;
+    // array[9] = 41;
 
     printf("The original array is: ");
     printArray(array, SIZE);
