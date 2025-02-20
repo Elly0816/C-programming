@@ -16,7 +16,7 @@ int calculate_age(int year, int month, int day)
 
     age = current_year - year;
 
-    if ((current_month < month) || ((current_month == month) && (current_day < day)))
+    if (current_month < month || (current_month == month && current_day < day))
     { // This checks if the entered date has occured this year
         age--;
     }
@@ -26,37 +26,37 @@ int calculate_age(int year, int month, int day)
 
 int main()
 {
-    char first_name[50], last_name[50], sex[10], email[50];
-    int birth_year, birth_month, birth_day, age;
+    char first_name[20] = "", last_name[20] = "", sex[10] = "", email[50] = ""; // initialize variables
+    int birth_year = 0, birth_month = 0, birth_day = 0, age = 0;
 
-    printf("Hi! Please enter your first name: ");
+    printf("\n\nHi! Please enter your first name: ");
     scanf("%s", first_name);
     printf("\nPlease enter your last name: ");
     scanf("%s", last_name);
-    while (strcmp(sex, "male") && strcmp(sex, "female"))
+    while (strcmp(sex, "male") && strcmp(sex, "female")) // check if the sex is either male or female. Keep asking the user for input if it's not
     {
         printf("\nWell done! Now what's your gender? Enter male or female: ");
         scanf("%s", sex);
     }
     printf("\nGreat job! Now what's your email?: ");
     scanf("%s", email);
-    while ((birth_year >= 2025) || (birth_year < 1900))
+    while (birth_year >= 2025 || birth_year < 1900)
     {
         printf("\nGreat, now what year were you born in? ");
         scanf("%d", &birth_year);
     }
-    while (((birth_month > 12) || (birth_month < 1)))
+    while (birth_month > 12 || birth_month < 1) // check if the month is valid
     {
         printf("\nFantastic! Now what month were you born in? (Enter as a number eg 1 for January and 12 for December): ");
         scanf("%d", &birth_month);
     }
-    while (((birth_day > 31) || (birth_day < 1)))
+    while (birth_day > 31 || birth_day < 1) // check if the day is valid
     {
         printf("\nGreat! Now what day of the month were you born in?: ");
         scanf("%d", &birth_day);
     }
 
-    age = calculate_age(birth_year, birth_month, birth_day);
+    age = calculate_age(birth_year, birth_month, birth_day); // calculate the age based on the inputs
 
     printf("\n\nHello %s %s,\n\tYou are apparently %d years old.\nYou're %s, and your email is %s.\nYours truly\nEleazar.", first_name, last_name, age, sex, email);
 
