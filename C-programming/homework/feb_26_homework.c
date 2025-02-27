@@ -14,7 +14,7 @@ int main()
 
     printf("\n\nPerforming a bitwise or on 15 and 11 (x|y) would give: %d", bitwise_or);
 
-    printf("\n\nNegating the result of a bitwise and operation between 15 and 11 ~(y&x) would give: %d", bitwise_negate);
+    printf("\n\nNegating the result of a bitwise and operation between 15 and 11 ~(y&x) would give: %d\n\n", bitwise_negate);
 
     return 0;
 }
