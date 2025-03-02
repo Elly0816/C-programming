@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#define NUM_OF_COURSES 8
-
 float average(float *numbers, size_t SIZE)
 {
 
@@ -20,8 +18,8 @@ float average(float *numbers, size_t SIZE)
 
 int main()
 {
-    char course[NUM_OF_COURSES][50];
-    float score[NUM_OF_COURSES], average_score;
+    char course[8][50];
+    float score[8], average_score;
     strcpy(course[0], "Programming Principles and Techniques");
     strcpy(course[1], "Logic Building and Elementary Programming");
     strcpy(course[2], "Building Modern Websites");
@@ -37,7 +35,7 @@ int main()
         scanf("%f", score + i);
     }
 
-    average_score = average(score, NUM_OF_COURSES);
+    average_score = average(score, sizeof(score) / sizeof(score[0]));
     printf("Your average score is: %f", average_score);
 
     return 0;
