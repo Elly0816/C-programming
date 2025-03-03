@@ -36,7 +36,11 @@ int main()
     }
 
     average_score = average(score, sizeof(score) / sizeof(score[0]));
-    printf("Your average score is: %f", average_score);
+    char letter_grade = average_score >= 75 ? 'A' : average_score >= 65 ? 'B'
+                                                : average_score >= 60   ? 'C'
+                                                : average_score >= 50   ? 'D'
+                                                                        : 'E';
+    printf("Your average score is: %f\% which means you got an %c", average_score, letter_grade);
 
     return 0;
 }
