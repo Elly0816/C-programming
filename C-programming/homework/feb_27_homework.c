@@ -29,10 +29,20 @@ int main()
     strcpy(course[6], "Object-Oriented Programming Concepts");
     strcpy(course[7], "Data Management with SQL Server");
 
+    printf("\t\t\t\t---------GRADE CALCULATOR---------\n\n\n");
     for (int i = 0; i < (sizeof(score) / sizeof(score[0])); i++)
     {
-        printf("Enter your score for %s: ", course[i]);
-        scanf("%f", score + i);
+        score[i] = (float)-1;
+        while (score[i] > 100 || score[i] < 0)
+        {
+            printf("Enter your score for %s: ", course[i]);
+            if (scanf("%f", score + i) != 1) // If scanning the input was successful (input matches format)
+            {
+                printf("\nEnter a valid number\n");
+                while (getchar() != '\n') // Delete inputs in the buffer
+                    ;
+            }
+        }
     }
 
     average_score = average(score, sizeof(score) / sizeof(score[0]));
@@ -40,7 +50,8 @@ int main()
                                                 : average_score >= 60   ? 'C'
                                                 : average_score >= 50   ? 'D'
                                                                         : 'E';
-    printf("Your average score is: %f\% which means you got an %c", average_score, letter_grade);
+    printf("\n\t\t\t--------YOUR FINAL SCORE--------\n\n");
+    printf("Your average score is: %.2f% which means you got an %c", average_score, letter_grade);
 
     return 0;
 }
