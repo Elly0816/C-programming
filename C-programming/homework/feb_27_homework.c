@@ -36,7 +36,7 @@ int main()
         while (score[i] > 100 || score[i] < 0)
         {
             printf("Enter your score for %s: ", course[i]);
-            if (scanf("%f", score + i) != 1) // If scanning the input was successful (input matches format)
+            if (scanf("%f", &score[i]) != 1) // If scanning the input was successful (input matches format)
             {
                 printf("\nEnter a valid number\n");
                 while (getchar() != '\n') // Delete inputs in the buffer

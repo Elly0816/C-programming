@@ -19,7 +19,23 @@ int reverse(int number)
 
 int main()
 {
-    int number = 2943768, reversed;
+    int number, reversed;
+    int valid_number = 0;
+
+    printf("Enter a number: ");
+    while (!valid_number)
+    {
+        if (scanf("%d", &number) != 1)
+        {
+            printf("\nPlease enter a valid number: ");
+            while (getchar() != '\n')
+                ;
+        }
+        else
+        {
+            valid_number = 1;
+        }
+    }
 
     reversed = reverse(number);
 
