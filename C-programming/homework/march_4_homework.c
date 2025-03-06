@@ -20,17 +20,14 @@ int main()
 {
 
     printf("\n");
-    printf("----------------------------------------\n");
 
     for (int i = 1; i <= 12; i++)
     {
-        printf("|");
         for (int j = 1; j <= 12; j++)
         {
-            printf("%d|", i * j);
+            printf("%4d", i * j);
         }
         printf("\n");
-        printf("----------------------------------------");
         printf("\n");
     }
 
