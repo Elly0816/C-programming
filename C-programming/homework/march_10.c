@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main()
+int main(void)
 {
 
     char myText[300];
@@ -27,7 +27,7 @@ int main()
     {
 
         printf("\n%c is stored in: %p", *(myText_ptr), myText_ptr);
-        *myText_ptr++;
+        myText_ptr++;
     }
     return 0;
 }
