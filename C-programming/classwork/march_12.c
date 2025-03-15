@@ -7,7 +7,7 @@ int is_valid_name(const char *name)
 {
     while (*name)
     {
-        if (!isalpha(*name) && !isspace(*name))
+        if (!isalpha(*name) && !isspace(*name)) // Checks if the dereferenced pointer is not either a alphabet character or a space
         {
             return 0;
         }
