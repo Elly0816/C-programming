@@ -17,6 +17,110 @@
 #include <ctype.h>
 #include <string.h>
 
+void clear_input_buffer(void);
+void print_formatted_currency(float);
+void take_ussd_code(char *);
+int validate_input(int);
+void get_user_choice(int *, float *);
+void handle_transfer(float *);
+void buy_data(float *);
+void buy_airtime(float *);
+void top_up_balance(float *);
+
+/**
+ * @brief Main program entry point
+ *
+ * @return int Returns 0 on successful execution
+ * @details Initializes the banking system, manages the main menu loop,
+ *          and coordinates all banking operations
+ */
+int main(void)
+{
+    char ussd_code[6];
+    float account_balance = 4000000;
+    int user_option = 0, should_run = 1;
+    char options[5][100] = {
+        "Check Balance", "Transfer", "Buy Data", "Buy Airtime", "Top Up Balance"};
+
+    printf("\n\n-----WELCOME TO KUSH-BANK-----\n\n");
+
+    take_ussd_code(ussd_code);
+
+    printf("\n           -----OPTIONS-----\n");
+
+    while (should_run)
+    {
+        printf("\n\n");
+        for (int i = 0; i < 5; i++)
+        {
+            if (account_balance < 1 && (i != 0 && i != 4))
+            {
+                continue;
+            }
+            else
+            {
+                printf("\nTo %s, press %d", options[i], i + 1);
+            }
+        }
+        printf("\nOr press 0 to cancel");
+
+        printf("\n\n");
+
+        get_user_choice(&user_option, &account_balance);
+
+        switch (user_option)
+        {
+        case 1:
+            printf("Your current balance is: ");
+            print_formatted_currency(account_balance);
+            break;
+        case 2:
+            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
+            handle_transfer(&account_balance);
+            break;
+        case 3:
+            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
+            buy_data(&account_balance);
+            break;
+        case 4:
+            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
+            buy_airtime(&account_balance);
+            break;
+        case 5:
+            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
+            top_up_balance(&account_balance);
+            break;
+        case 0:
+            should_run = 0;
+            printf("Goodbye");
+            break;
+        default:
+            break;
+        }
+    }
+    return 0;
+}
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
 /**
  * @brief Clears the input buffer
  */
@@ -42,24 +146,24 @@ void print_formatted_currency(float currency)
  * @brief Validates and processes the entered USSD code
  *
  * @param ussd_code Pointer to store the validated USSD code
- * @details Continuously prompts user until the correct code (*69#) is entered
+ * @details Continuously prompts user until the correct code (*420#) is entered
  */
 void take_ussd_code(char *ussd_code)
 {
-    char temp_ussd_code[5];
+    char temp_ussd_code[6];
 
-    printf("Enter your USSD CODE: '*69#': ");
+    printf("Enter your USSD CODE: '*420#': ");
     do
     {
-        scanf("%4s", temp_ussd_code);
+        scanf("%5s", temp_ussd_code);
 
-        if (strcmp(temp_ussd_code, "*69#") != 0)
+        if (strcmp(temp_ussd_code, "*420#") != 0)
         {
             clear_input_buffer();
-            printf("\nEnter the code '*69#': ");
+            printf("\nEnter the code '*420#': ");
         }
 
-    } while (strcmp(temp_ussd_code, "*69#") != 0);
+    } while (strcmp(temp_ussd_code, "*420#") != 0);
 
     clear_input_buffer();
     strcpy(ussd_code, temp_ussd_code);
@@ -121,13 +225,13 @@ void handle_transfer(float *account_balance)
         scanf("%f", &amount);
         if (amount < 1 || amount > *account_balance)
         {
-            printf("Enter a number between 1 and %f:\n", *account_balance);
+            printf("Enter a number between 1 and %.2f:\n", *account_balance);
             clear_input_buffer();
         }
 
     } while (amount < 1 || amount > *account_balance);
     *account_balance -= amount;
-    printf("Deducted %f for transfer from your account.\n", amount);
+    printf("Deducted %.2f for transfer from your account.\n", amount);
 }
 
 /**
@@ -139,19 +243,21 @@ void handle_transfer(float *account_balance)
 void buy_data(float *account_balance)
 {
     float amount = 0;
-    printf("How much data would you like to buy? ");
+    printf("How much data would you like to buy?\n");
+    printf("The available data plans are: \nN5000 for 5GB\nN3000 for 3GB\nN2000 for 2GB\nN1000 for 1GB\n");
     do
     {
         scanf("%f", &amount);
-        if (amount < 1 || amount > *account_balance)
+        if ((amount != 1000 && amount != 2000 && amount != 3000 && amount != 5000) || amount > *account_balance)
         {
-            printf("Enter an amount between 1 and %f\n", *account_balance);
+            printf("The available data plans are: \nN5000 for 5GB\nN3000 for 3GB\nN2000 for 2GB\nN1000 for 1GB\n");
+            printf("Make sure you have enough funds for the selected plan. Your balance is currently N%.2f\n", *account_balance);
             clear_input_buffer();
         }
 
-    } while (amount < 1 || amount > *account_balance);
+    } while ((amount != 1000 && amount != 2000 && amount != 3000 && amount != 5000) || amount > *account_balance);
     *account_balance -= amount;
-    printf("Deducted %f for data from your account.\n", amount);
+    printf("Deducted %.2f for data from your account.\n", amount);
 }
 
 /**
@@ -171,13 +277,13 @@ void buy_airtime(float *account_balance)
 
         if (amount < 1 || amount > *account_balance)
         {
-            printf("Enter an amount between 1 and %f\n", *account_balance);
+            printf("Enter an amount between 1 and %.2f\n", *account_balance);
             clear_input_buffer();
         }
     } while (amount < 1 || amount > *account_balance);
 
     *account_balance -= amount;
-    printf("Deducted %f for airtime from your account", amount);
+    printf("Deducted %.2f for airtime from your account", amount);
 }
 
 /**
@@ -202,79 +308,5 @@ void top_up_balance(float *account_balance)
         }
     } while (amount < 1);
     *account_balance += amount;
-    printf("Added %f to your account", amount);
-}
-
-/**
- * @brief Main program entry point
- *
- * @return int Returns 0 on successful execution
- * @details Initializes the banking system, manages the main menu loop,
- *          and coordinates all banking operations
- */
-int main(void)
-{
-    char ussd_code[5];
-    float account_balance = 4000000;
-    int user_option = 0, should_run = 1;
-    char options[5][100] = {
-        "Check Balance", "Transfer", "Buy Data", "Buy Airtime", "Top Up Balance"};
-
-    printf("\n\n-----WELCOME TO ME-BANK69-----\n\n");
-
-    take_ussd_code(ussd_code);
-
-    printf("\n           -----OPTIONS-----\n");
-
-    while (should_run)
-    {
-        printf("\n\n");
-        for (int i = 0; i < 5; i++)
-        {
-            if (account_balance < 1 && (i != 0 && i != 4))
-            {
-                continue;
-            }
-            else
-            {
-                printf("\nTo %s, press %d", options[i], i + 1);
-            }
-        }
-        printf("\nOr press 0 to cancel");
-
-        printf("\n\n");
-
-        get_user_choice(&user_option, &account_balance);
-
-        switch (user_option)
-        {
-        case 1:
-            printf("Your current balance is: ");
-            print_formatted_currency(account_balance);
-            break;
-        case 2:
-            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
-            handle_transfer(&account_balance);
-            break;
-        case 3:
-            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
-            buy_data(&account_balance);
-            break;
-        case 4:
-            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
-            buy_airtime(&account_balance);
-            break;
-        case 5:
-            printf("Your picked option is %d which is %s.\n\n", user_option, options[user_option - 1]);
-            top_up_balance(&account_balance);
-            break;
-        case 0:
-            should_run = 0;
-            printf("Goodbye");
-            break;
-        default:
-            break;
-        }
-    }
-    return 0;
+    printf("Added %.2f to your account", amount);
 }
