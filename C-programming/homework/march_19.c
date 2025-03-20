@@ -1,57 +1,76 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
-struct Student
+typedef struct Student
 {
     char name[50];
     int age;
     char sex[7];
     float height;
     float cgpa;
-};
+    char email[80];
+} Student;
+
+// typedef struct Student Student;
 
 void clear_buffer(void);
 
-void getName(char *);
-void getAge(int *, char *);
-void getSex(char *, char *);
-void getHeight(float *, char *);
-void getCGPA(float *, char *);
+void get_name(char *);
+void get_age(int *, char *);
+void get_sex(char *, char *);
+void get_height(float *, char *);
+void get_cgpa(float *, char *);
+void get_email(char *, char *);
+int get_number_of_students();
 
 int main(void)
 {
 
-    struct Student students[3];
-    size_t length = sizeof(students) / sizeof(struct Student);
+    int number_of_students = get_number_of_students();
 
-    for (int i = 0; i < length; i++)
+    Student *students = (Student *)malloc(number_of_students * sizeof(Student));
+    if (students == NULL)
+    {
+        printf("There was an issue allocating memory for the student struct");
+        return -1;
+    }
+
+    for (int i = 0; i < number_of_students; i++)
     {
 
-        getName(students[i].name);
-        getAge(&students[i].age, students[i].name);
-        getSex(students[i].sex, students[i].name);
-        getHeight(&students[i].height, students[i].name);
-        getCGPA(&students[i].cgpa, students[i].name);
+        get_name(students[i].name);
+        get_age(&students[i].age, students[i].name);
+        get_sex(students[i].sex, students[i].name);
+        get_height(&students[i].height, students[i].name);
+        get_cgpa(&students[i].cgpa, students[i].name);
+        get_email(students[i].name, students[i].email);
 
         printf("\n");
     }
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < number_of_students; i++)
     {
-        char pronoun[4], first_cap[4];
+        char pronoun[4], first_cap[4], possessive[4], first_cap_poss[4];
         if (strcmp(students[i].sex, "male") == 0)
         {
             strcpy(pronoun, "he");
             strcpy(first_cap, "He");
+            strcpy(possessive, "his");
+            strcpy(first_cap_poss, "His");
         }
         else
         {
             strcpy(pronoun, "she");
             strcpy(first_cap, "She");
+            strcpy(possessive, "her");
+            strcpy(first_cap_poss, "Her");
         }
-        printf("%s is a %d years old %s.\n%s is %.2f meters tall and %s has a cgpa of %.2f.\n\n", students[i].name, students[i].age, students[i].sex, first_cap, students[i].height, pronoun, students[i].cgpa);
+        printf("%s is a %d years old %s.\n%s is %.2f meters tall and %s has a cgpa of %.2f.\n%s email is: %s\n\n", students[i].name, students[i].age, students[i].sex, first_cap, students[i].height, pronoun, students[i].cgpa, first_cap_poss, students[i].email);
     }
+
+    free(students);
 
     return 0;
 }
@@ -62,7 +81,7 @@ void clear_buffer(void)
         ;
 }
 
-void getName(char *name)
+void get_name(char *name)
 {
     printf("What is name of the student: ");
 
@@ -106,7 +125,7 @@ void getName(char *name)
     printf("\n");
 }
 
-void getAge(int *age, char *name)
+void get_age(int *age, char *name)
 {
     printf("Enter %s's age: ", name);
     while (scanf("%d", age) != 1)
@@ -118,7 +137,7 @@ void getAge(int *age, char *name)
     printf("\n");
 }
 
-void getSex(char *sex, char *name)
+void get_sex(char *sex, char *name)
 {
 
     printf("Enter %s's sex: ", name);
@@ -132,7 +151,7 @@ void getSex(char *sex, char *name)
     printf("\n");
 }
 
-void getHeight(float *height, char *name)
+void get_height(float *height, char *name)
 {
     printf("Enter %s's height in meters: ", name);
     scanf("%f", height);
@@ -140,14 +159,54 @@ void getHeight(float *height, char *name)
     printf("\n");
 }
 
-void getCGPA(float *cgpa, char *name)
+void get_cgpa(float *cgpa, char *name)
 {
     printf("Enter %s's cgpa: ", name);
     while (scanf("%f", cgpa) && (*cgpa < 0 || *cgpa > 5))
     {
         printf("Enter a valid CGPA between 0 and 5: ");
         clear_buffer();
-    };
+    }
     clear_buffer();
     printf("\n");
+}
+
+void get_email(char *name, char *email)
+{
+
+    printf("Enter %s's email: ", name);
+    while (1)
+    {
+
+        scanf("%79s", email);
+
+        if (strcspn(email, "@") == strlen(email) && strcspn(email, ".") == strlen(email))
+        {
+            printf("Enter a valid email: ");
+            clear_buffer();
+            continue;
+        }
+        clear_buffer();
+        break;
+    }
+}
+
+int get_number_of_students()
+{
+    int number = 0;
+    printf("Enter the number of students you want to assign: ");
+
+    while (1)
+    {
+        scanf("%d", &number);
+        if (number < 1)
+        {
+            printf("Enter a number greater than zero! ");
+            clear_buffer();
+            continue;
+        }
+        break;
+    }
+    clear_buffer();
+    return number;
 }
