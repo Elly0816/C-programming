@@ -109,8 +109,8 @@ int merge_sort(int array[], int start, int end)
     if (start < end)
     {
         int mid = start + (end - start) / 2;
-        merge_sort(array, start, mid);
-        merge_sort(array, mid + 1, end);
+        merge_sort(array, start, mid);   // Merge sort left
+        merge_sort(array, mid + 1, end); // Merge sort right
         merge(array, start, mid, end);
         return 0;
     }
@@ -141,8 +141,8 @@ int main()
     printf("The original array is: ");
     printArray(array, SIZE);
 
-    printf("Using selection sort:\n");
-    selection_sort(array, SIZE);
+    // printf("Using selection sort:\n");
+    // selection_sort(array, SIZE);
 
     printf("Using merge sort:\n");
     merge_sort(array, 0, SIZE - 1);
