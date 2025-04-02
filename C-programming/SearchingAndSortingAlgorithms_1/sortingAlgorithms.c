@@ -59,44 +59,90 @@ int selection_sort(int array[], int size)
 
 int merge(int array[], int start, int mid, int end)
 {
-    int *temp = (int *)malloc((end - start + 1) * sizeof(int));
+    int *left = (int *)malloc((mid - start + 1) * sizeof(int));
+    int *right = (int *)malloc((end - mid) * sizeof(int));
 
-    if (temp == NULL)
+    if (left == NULL || right == NULL)
         return -1;
 
-    int i = start;
-    int j = mid + 1;
-    int k = 0;
+    int i = 0;
+    int j = 0;
+    int k = start;
 
-    while (i <= mid && j <= end)
+    // int n_left = sizeof(left) / sizeof(int);
+    int n_left = mid - start + 1;
+    // int n_right = sizeof(right) / sizeof(int);
+    int n_right = end - mid;
+
+    for (i = start; i < n_left; i++)
     {
-        if (array[i] < array[j])
+        left[i] = array[i];
+    }
+    for (j = 0; j < n_right; j++)
+    {
+        right[j] = array[j];
+    }
+
+    i = 0, j = 0;
+    while (i < n_left && j < n_right)
+    {
+        if (left[i] <= right[j])
         {
-            temp[k++] = array[i++];
+            array[k] = left[i];
+            i++;
         }
         else
         {
-            temp[k++] = array[j++];
+            array[k] = right[j];
+            j++;
         }
+        k++;
     }
 
-    while (i <= mid)
+    while (i < n_left)
     {
-        temp[k++] = array[i++];
+        array[k] = left[i];
+        i++;
+        k++;
     }
 
-    while (j <= end)
+    while (j < n_right)
     {
-        temp[k++] = array[j++];
+        array[k] = right[j];
+        j++;
+        k++;
     }
+    // while (i <= mid && j <= end)
+    // {
+    //     if (array[i] < array[j])
+    //     {
+    //         temp[k++] = array[i++];
+    //     }
+    //     else
+    //     {
+    //         temp[k++] = array[j++];
+    //     }
+    // }
 
-    for (int i = start + 0; i < (end - start + 1); i++)
-    {
-        array[i] = temp[i];
-    }
+    // while (i <= mid)
+    // {
+    //     temp[k++] = array[i++];
+    // }
 
-    free(temp);
-    printArray(array, (end - start + 1));
+    // while (j <= end)
+    // {
+    //     temp[k++] = array[j++];
+    // }
+
+    // for (int i = start + 0; i < (end - start + 1); i++)
+    // // for (int i = 0; i < (sizeof(*array) / sizeof(int)); i++)
+    // {
+    //     array[i] = temp[i];
+    // }
+
+    free(right);
+    free(left);
+    // printArray(array, (end - start + 1));
     return 0;
 }
 
@@ -146,6 +192,9 @@ int main()
 
     printf("Using merge sort:\n");
     merge_sort(array, 0, SIZE - 1);
+    // size_t new_array_size = sizeof(new_array) / sizeof(int);
+
+    printArray(array, 9);
 
     free(array); // Always remember to free the memory on the heap
     return 0;

@@ -57,17 +57,10 @@ void insertion_sort(int *numbers, int size)
         int j = i;
         while (j >= 0 && numbers[j + 1] < numbers[j])
         {
-            // if (j >= 0)
-            // {
             int temp = numbers[j];
             numbers[j] = numbers[j + 1];
             numbers[j + 1] = temp;
             j--;
-            // }
-            // else
-            // {
-            //     break;
-            // }
         }
     }
 }

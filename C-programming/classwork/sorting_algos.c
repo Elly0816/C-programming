@@ -140,16 +140,16 @@ int main()
     printArray(arr, n);
 
     // Bubble Sort demonstration
-    int bubbleArr[7] = {64, 34, 25, 12, 22, 11, 90};
-    bubbleSort(bubbleArr, n);
-    printf("Bubble sorted array: ");
-    printArray(bubbleArr, n);
+    // int bubbleArr[7] = {64, 34, 25, 12, 22, 11, 90};
+    // bubbleSort(bubbleArr, n);
+    // printf("Bubble sorted array: ");
+    // printArray(bubbleArr, n);
 
-    // Insertion Sort demonstration
-    int insertArr[7] = {64, 34, 25, 12, 22, 11, 90};
-    insertionSort(insertArr, n);
-    printf("Insertion sorted array: ");
-    printArray(insertArr, n);
+    // // Insertion Sort demonstration
+    // int insertArr[7] = {64, 34, 25, 12, 22, 11, 90};
+    // insertionSort(insertArr, n);
+    // printf("Insertion sorted array: ");
+    // printArray(insertArr, n);
 
     // Merge Sort demonstration
     int mergeArr[7] = {64, 34, 25, 12, 22, 11, 90};
