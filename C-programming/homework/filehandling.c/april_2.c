@@ -268,6 +268,7 @@ int write_to_file(FILE *file, Student *student, char *filepath)
     fprintf(file, "P.S. We'll be reaching you at %s\n", student->email);
     fprintf(file, "Goodluck!");
     fclose(file);
+    file = NULL;
     return 0;
 }
 
@@ -285,6 +286,7 @@ int read_from_file(FILE *file, char *filepath)
         printf("%s", string);
     }
     fclose(file);
+    file = NULL;
     return 0;
 }
 
