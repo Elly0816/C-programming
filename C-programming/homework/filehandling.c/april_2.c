@@ -22,6 +22,7 @@ typedef struct Student
     char sex[7];
     char course[60];
     float high_school_gpa;
+    char email[50];
 } Student;
 
 void get_name(Student *);
@@ -29,6 +30,7 @@ void get_age(Student *);
 void get_sex(Student *);
 void get_course(Student *);
 void get_gpa(Student *);
+void get_email(Student *);
 void clear_buffer(void);
 int write_to_file(FILE *, Student *, char *);
 int read_from_file(FILE *, char *);
@@ -45,11 +47,11 @@ int main(void)
 
     Student student;
 
-    int should_ask;
+    int should_run;
 
     do
     {
-        should_ask = 1;
+        should_run = 1;
         printf("Do you want to read or write to the file?\n Enter 'read' to read, 'write' to write and 'none' to close the program: ");
 
         read_or_write(read_or_write_char);
@@ -70,6 +72,7 @@ int main(void)
             get_age(&student);
             get_sex(&student);
             get_course(&student);
+            get_email(&student);
             get_gpa(&student);
 
             if (write_to_file(student_file, &student, file_path) != 0)
@@ -81,14 +84,14 @@ int main(void)
         { // End the program
             printf("Goodbye");
 
-            should_ask = 0;
+            should_run = 0;
         }
         else
         {
             printf("Invalid input! ");
         }
 
-    } while (should_ask);
+    } while (should_run);
 
     return 0;
 }
@@ -211,7 +214,7 @@ void get_course(Student *student)
     {
         invalid = 0;
 
-        if (scanf("%d", &user_choice) != 1 || user_choice < 1 || user_choice > 5)
+        if (scanf("%d", &user_choice) != 1 || user_choice < 1 || user_choice > 5) // Make sure the input is valid
         {
             printf("Enter a valid number from 1 to 5! ");
             clear_buffer();
@@ -262,6 +265,7 @@ int write_to_file(FILE *file, Student *student, char *filepath)
     fprintf(file, "Hi %s!\nFrom what we know about you, you are a %d year old %s.\n", student->name, student->age, student->sex);
     fprintf(file, "Your chosen course of study is %s and your high school graduating gpa is %.2f\n", student->course, student->high_school_gpa);
     fprintf(file, "We hope you make the best of your time here and you graduate to be world class at %s\n", student->course);
+    fprintf(file, "P.S. We'll be reaching you at %s\n", student->email);
     fprintf(file, "Goodluck!");
     fclose(file);
     return 0;
@@ -276,7 +280,7 @@ int read_from_file(FILE *file, char *filepath)
         perror("Could not open the file");
         return -1;
     }
-    while (fgets(string, 100, file))
+    while (fgets(string, 100, file) != NULL)
     {
         printf("%s", string);
     }
@@ -304,3 +308,63 @@ void read_or_write(char *character)
     clear_buffer();
     strcpy(character, choice);
 }
+
+void get_email(Student *student)
+{
+
+    char email[50];
+
+    printf("Enter your email: ");
+
+    int invalid;
+
+    do
+    {
+        invalid = 0;
+        scanf("%s", email);
+        if (strcspn(email, "@") == strlen(email) || strcspn(email, ".") == strlen(email))
+        {
+            invalid = 1;
+            clear_buffer();
+            printf("Enter a valid email! ");
+            continue;
+        }
+
+        if (strlen(email) > 49)
+        {
+            invalid = 1;
+            clear_buffer();
+            printf("Your email is too long! ");
+        }
+
+    } while (invalid);
+
+    strcpy(student->email, email);
+}
+
+// void get_phone_number(Student* student){
+//     char phone_number[12];
+
+//     int invalid;
+
+//     printf("Enter your phone number: ");
+//     do{
+//         invalid=0;
+
+//         scanf("%s", phone_number);
+//         if(strlen(phone_number) < 11 || strlen(phone_number) >11){
+//             prinf("Enter a valid phone number! Check the length: ");
+//             invalid=1;
+//             clear_buffer();
+//             continue;
+//         }
+
+//         if(phone_number[0] != '0'){
+//             printf("Your phone number should start with a 0! ");
+//             clear_buffer();
+//             invalid=1;
+//         }
+
+//     } while (invalid);
+//     strcpy(student->phone_number, phone_number);
+// }
